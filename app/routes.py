@@ -1,29 +1,41 @@
 from flask_restx import Namespace, Resource, fields
-from flask import request
-from .models import User, db
+from flask import request, jsonify, make_response
+from .models import Usuario, db
 
-api = Namespace('users', description='Operaciones relacionadas con usuarios')
+api = Namespace('usuarios', description='Operaciones con usuarios')
 
-user_model = api.model('User', {
+modelo_usuario = api.model('Usuario', {
     'id': fields.Integer(readOnly=True, description='ID del usuario'),
     'username': fields.String(required=True, description='Nombre de usuario'),
-    'email': fields.String(required=True, description='Correo electrónico')
+    'email': fields.String(required=True, description='Correo electrónico'),
+    'nombre': fields.String(required=True, description='Nombre(s)'),
+    'apellido': fields.String(required=True, description='Apellido(s)')
 })
 
 
 @api.route('/')
-class UserList(Resource):
-    @api.marshal_list_with(user_model)
+class Usuarios(Resource):
+    @api.marshal_list_with(modelo_usuario)
     def get(self):
         """Lista todos los usuarios"""
-        return User.query.all()
+        return Usuario.query.all()
 
-    @api.expect(user_model)
+    @api.expect(modelo_usuario)
     @api.response(201, 'Usuario creado exitosamente')
     def post(self):
         """Crea un nuevo usuario"""
         data = request.json
-        new_user = User(username=data['username'], email=data['email'])
+        new_user = Usuario(username=data['username'],
+                           email=data['email'],
+                           nombre=data['nombre'],
+                           apellido=data['apellido'])
         db.session.add(new_user)
         db.session.commit()
-        return new_user, 201
+
+        return make_response(jsonify({
+            'id': new_user.id,
+            'username': new_user.username,
+            'email': new_user.email,
+            'nombre': new_user.nombre,
+            'apellido': new_user.apellido
+        }), 201)
