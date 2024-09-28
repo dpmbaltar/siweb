@@ -2,11 +2,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_restx import Api
+
 from .config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
-
+api = Api(title="SIWEB API", 
+          version="1.0",
+          description="Documentación de mi API",
+          doc="/docs"
+          )
 
 def create_app():
     app = Flask(__name__)
@@ -15,10 +20,11 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    api = Api(app, title="SIWEB API", version="1.0",
-              description="Documentación de mi API", doc="/docs")
+    api.init_app(app)
 
-    from .routes import api as api_blueprint
-    api.add_namespace(api_blueprint)
+    from .routes.usuario import api as usuario_namespace
+    from .routes.publicacion import api as publicacion_namespace
+    api.add_namespace(usuario_namespace)
+    api.add_namespace(publicacion_namespace)
 
     return app
