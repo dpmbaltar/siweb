@@ -1,11 +1,13 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_seeder import FlaskSeeder
 from flask_migrate import Migrate
 from flask_restx import Api
 from .config import Config
 
 db = SQLAlchemy()
 migrate = Migrate()
+seeder = FlaskSeeder()
 
 
 def create_app():
@@ -14,6 +16,7 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+    seeder.init_app(app, db)
 
     api = Api(app, title="SIWEB API", version="1.0",
               description="Documentación de mi API", doc="/docs")
