@@ -57,3 +57,13 @@ class Post(db.Model):
 
     def __repr__(self):
         return f'<Post {self.titulo}>'
+
+
+class File(db.Model):
+    __tablename__ = 'archivos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(120), nullable=False)
+
+    def __repr__(self):
+        return f'<File {self.nombre}>'

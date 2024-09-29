@@ -24,3 +24,13 @@ modelo_input_publicacion = api.model('PublicacionInput', {
     'contenido': fields.String(required=True, description='Cuerpo de la publicación'),
     'usuario': fields.Integer(min=1)
 })
+
+modelo_archivo = api.model('Archivo', {
+    'id': fields.Integer(description='ID del archivo', required=True),
+    'nombre': fields.String(description='Nombre del archivo')
+})
+
+modelo_archivo_subido = api.model('ArchivoSubido', {
+    'id': fields.Integer(description='ID del archivo subido'),
+    'archivo': fields.String(description='Mensaje de confirmación')
+})
