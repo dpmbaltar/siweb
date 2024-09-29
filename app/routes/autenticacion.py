@@ -5,6 +5,8 @@ from urllib.parse import quote_plus, urlencode
 from flask_restx import Namespace, Resource
 from flask import redirect, session, url_for, make_response, jsonify, current_app as app
 
+from ..models import Usuario, db
+from ..utils import login_required
 
 oauth = OAuth(app)
 oauth.register(
@@ -34,21 +36,29 @@ class Login(Resource):
 @api.route("/callback")
 class Callback(Resource):
     def get(self):
-        """URL para redireccionar después de iniciar sesión"""
+        """Redirecciona al usuario cuando inicia sesión (lo registra si es la primera vez)"""
         token = oauth.auth0.authorize_access_token()
         session['user'] = token
-        return redirect(url_for('autenticacion_info'))
+        data = session['user']['userinfo']
+        user = Usuario.query.filter_by(email=data['email']).first()
 
-    def post(self):
-        """URL para redireccionar después de iniciar sesión"""
-        token = oauth.auth0.authorize_access_token()
-        session['user'] = token
-        return redirect(url_for('autenticacion_info'))
+        if user:
+            return redirect(url_for('autenticacion_info'))
+        else:
+            new_user = Usuario(username=data['nickname'],
+                               email=data['email'],
+                               nombre=data['given_name'],
+                               apellido=data['family_name'])
+            db.session.add(new_user)
+            db.session.commit()
+            return redirect(url_for('autenticacion_info'))
 
 
 @api.route('/logout')
 class Logout(Resource):
     @api.response(302, 'Cerrado sesión exitosamente')
+    @api.response(401, 'Acceso no autorizado')
+    @login_required
     def get(self):
         """Cierra la sesión del usuario"""
         session.clear()
@@ -67,13 +77,20 @@ class Logout(Resource):
 
 @api.route('/info')
 class Info(Resource):
+    @api.response(401, 'Acceso no autorizado')
+    @login_required
     def get(self):
         """Brinda información del usuario que ha iniciado una sesión"""
-        if session:
+        # return make_response(jsonify({'user': session.get('user')}))
+        data = session['user']['userinfo']
+        user = Usuario.query.filter_by(email=data['email']).first()
+        if user:
             return make_response(jsonify({
-                'user': session.get('user')
-            }))
+                'id': user.id,
+                'username': user.username,
+                'email': user.email,
+                'nombre': user.nombre,
+                'apellido': user.apellido
+            }), 200)
         else:
-            return make_response(jsonify({
-                'user': 'Invitado'
-            }))
+            return make_response(jsonify({'error': 'Usuario inexistente'}), 404)
