@@ -1,4 +1,5 @@
 import os
+from authlib.integrations.flask_client import OAuth
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_seeder import FlaskSeeder
@@ -20,6 +21,7 @@ seeder = FlaskSeeder()
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
+    app.secret_key = os.getenv('APP_SECRET_KEY')
 
     # Crear carpeta para archivos si no existe
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -34,8 +36,10 @@ def create_app():
     from .routes.usuario import api as usuario_namespace
     from .routes.publicacion import api as publicacion_namespace
     from .routes.archivo import api as archivo_namespace
+    from .routes.autenticacion import api as autenticacion_namespace
     api.add_namespace(usuario_namespace)
     api.add_namespace(publicacion_namespace)
     api.add_namespace(archivo_namespace)
+    api.add_namespace(autenticacion_namespace)
 
     return app
