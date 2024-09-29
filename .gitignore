@@ -98,3 +98,6 @@ venv.bak/
 # System files
 Thumbs.db
 Desktop.ini
+
+# Archivos subidos
+uploads/*
