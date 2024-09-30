@@ -1,4 +1,4 @@
-from flask_restx import Namespace, Resource
+from flask_restx import Namespace, Resource, marshal
 from flask import request, jsonify, make_response
 from datetime import date
 
@@ -17,7 +17,7 @@ class Publicaciones(Resource):
         return Post.query.limit(10).all()
 
     @api.expect(modelo_input_publicacion)
-    @api.marshal_with(modelo_publicacion)
+    # @api.marshal_with(modelo_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
     @login_required
     def post(self):
@@ -30,7 +30,8 @@ class Publicaciones(Resource):
                         )
         db.session.add(new_post)
         db.session.commit()
-        return new_post
+        # return new_post
+        return marshal(new_post, modelo_publicacion), 201
 
 
 @api.route('/<int:publicacionId>')
