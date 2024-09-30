@@ -16,7 +16,8 @@ modelo_publicacion = api.model('Publicacion', {
     'contenido': fields.String(required=True, description='Cuerpo de la publicación'),
     'fecha_creado': fields.Date(required=True, description='Fecha de creación de la publicación'),
     'fecha_modificado': fields.Date(required=True, description='Fecha de la última modificación sobre la publicación'),
-    'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación')
+    'id_usuario': fields.Integer(readOnly=True, description='ID del usuario de la publicación')
+    # 'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación')
 })
 
 modelo_input_publicacion = api.model('PublicacionInput', {
