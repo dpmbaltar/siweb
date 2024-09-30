@@ -4,6 +4,7 @@ from datetime import date
 
 from ..models import Post, db
 from ..api_models import modelo_publicacion, modelo_input_publicacion
+from ..utils import login_required
 
 api = Namespace('publicaciones', description='Operaciones con publicaciones')
 
@@ -18,6 +19,7 @@ class Publicaciones(Resource):
     @api.expect(modelo_input_publicacion)
     @api.marshal_with(modelo_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
+    @login_required
     def post(self):
         """Crea un nuevo post asociado a un usuario"""
         new_post = Post(titulo=api.payload['titulo'],
@@ -42,6 +44,7 @@ class Publicacion(Resource):
     @api.expect(modelo_input_publicacion)
     @api.marshal_with(modelo_publicacion)
     @api.response(200, 'Publicación actualizada exitosamente')
+    @login_required
     def put(self, publicacionId):
         """Actualiza la información de una publicación por medio de su id"""
         post = Post.query.get(publicacionId)
@@ -52,6 +55,7 @@ class Publicacion(Resource):
         return post
 
     @api.response(200, 'Publicación eliminada exitosamente')
+    @login_required
     def delete(self, publicacionId):
         """Elimina una publicación por medio de su id"""
         post = Post.query.get(publicacionId)
