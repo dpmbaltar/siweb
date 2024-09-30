@@ -19,6 +19,7 @@ class Publicaciones(Resource):
     @api.expect(modelo_input_publicacion)
     # @api.marshal_with(modelo_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
+    @api.response(401, 'Acceso no autorizado')
     @login_required
     def post(self):
         """Crea un nuevo post asociado a un usuario"""
@@ -63,4 +64,4 @@ class Publicacion(Resource):
         db.session.delete(post)
         db.session.commit()
 
-        return {}, 200
+        return {'mensaje': 'Publicación eliminada exitosamente'}, 200
