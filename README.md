@@ -24,5 +24,10 @@ flask db upgrade
 
 Para poblar la base de datos ejecutar:
 ```bash
+python -m flask seed run
+```
+
+Para listar los "seeders":
+```bash
 python -m flask seed list
 ```
