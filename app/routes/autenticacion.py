@@ -42,16 +42,15 @@ class Callback(Resource):
         data = session['user']['userinfo']
         user = Usuario.query.filter_by(email=data['email']).first()
 
-        if user:
-            return redirect(url_for('autenticacion_info'))
-        else:
+        if not user:
             new_user = Usuario(username=data['nickname'],
                                email=data['email'],
                                nombre=data['given_name'],
                                apellido=data['family_name'])
             db.session.add(new_user)
             db.session.commit()
-            return redirect(url_for('autenticacion_info'))
+
+        return redirect(url_for('autenticacion_info', _external=True))
 
 
 @api.route('/logout')
@@ -82,15 +81,8 @@ class Info(Resource):
     def get(self):
         """Brinda información del usuario que ha iniciado una sesión"""
         # return make_response(jsonify({'user': session.get('user')}))
-        data = session['user']['userinfo']
-        user = Usuario.query.filter_by(email=data['email']).first()
-        if user:
-            return make_response(jsonify({
-                'id': user.id,
-                'username': user.username,
-                'email': user.email,
-                'nombre': user.nombre,
-                'apellido': user.apellido
-            }), 200)
+        data = session['user']
+        if data:
+            return make_response(jsonify(data), 200)
         else:
-            return make_response(jsonify({'error': 'Usuario inexistente'}), 404)
+            return make_response(jsonify({'error': 'No ha iniciado sesión'}), 401)

@@ -7,7 +7,7 @@ api = Namespace('usuarios', description='Operaciones con usuarios')
 
 
 @api.route('/<int:id_usuario>')
-class PerfilUsuario(Resource):
+class Perfil(Resource):
     @api.marshal_with(modelo_usuario)
     def get(self, id_usuario):
         """Obtiene información del usuario"""
