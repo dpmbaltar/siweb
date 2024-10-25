@@ -1,0 +1,24 @@
+/* <weight>: Use a value from 300 to 800 */
+.open-sans-text {
+  font-family: 'Open Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
+}
+
+.open-sans-title {
+  font-family: 'Open Sans', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+  font-variation-settings: 'wdth' 100;
+}
+
+/* <weight>: Use a value from 100 to 900 */
+.montserrat-text {
+  font-family: 'Montserrat', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
