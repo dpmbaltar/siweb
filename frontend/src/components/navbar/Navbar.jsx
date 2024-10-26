@@ -7,30 +7,14 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import NavbarDrawer from './NavbarDrawer';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faBars,
-  faHouse,
-  faPaw,
-  faCircleUser,
-} from '@fortawesome/free-solid-svg-icons';
+import { faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
-const navLinks = [
-  {
-    title: 'Principal',
-    path: '#',
-    icon: faHouse,
-  },
-  {
-    title: 'Publicaciones',
-    path: '#posts',
-    icon: faPaw,
-  },
-];
+import NavbarDrawer from './NavbarDrawer';
 
-export default function Navbar() {
+export default function Navbar({ navArrayLinks }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -45,17 +29,21 @@ export default function Navbar() {
           >
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
-          <Typography variant='h6' sx={{ flexGrow: 1 }}>
+          <Typography
+            variant='h6'
+            className='open-sans-title'
+            sx={{ flexGrow: 1 }}
+          >
             RescatAr
           </Typography>
 
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navLinks.map((item) => (
+            {navArrayLinks.map((item) => (
               <Button
                 color='inherit'
                 key={item.title}
-                component='a'
-                href={item.path}
+                component={NavLink}
+                to={item.path}
               >
                 {item.title}
               </Button>
@@ -65,6 +53,8 @@ export default function Navbar() {
           <Button
             variant='outlined'
             color='inherit'
+            component={NavLink}
+            to='/login'
             startIcon={<FontAwesomeIcon icon={faCircleUser} />}
             sx={{
               borderRadius: 10,
@@ -82,7 +72,11 @@ export default function Navbar() {
         onClose={() => setOpen(false)}
         sx={{ display: { xs: 'flex', sm: 'none' } }}
       >
-        <NavbarDrawer navLinks={navLinks} />
+        <NavbarDrawer
+          navArrayLinks={navArrayLinks}
+          NavLink={NavLink}
+          setOpen={setOpen}
+        />
       </Drawer>
     </>
   );
