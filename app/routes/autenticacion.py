@@ -3,7 +3,7 @@ import os
 from authlib.integrations.flask_client import OAuth
 from urllib.parse import quote_plus, urlencode
 from flask_restx import Namespace, Resource
-from flask import redirect, session, url_for, make_response, jsonify, current_app as app
+from flask import redirect, request, session, url_for, make_response, jsonify, current_app as app
 
 from ..models import Usuario, db
 from ..utils import login_required
@@ -28,6 +28,11 @@ class Login(Resource):
     @api.response(401, 'Acceso no autorizado')
     def get(self):
         """Inicia la sesión del usuario"""
+        data = request.args
+        redirect_uri = data.get('redirect_uri')
+        if redirect_uri:
+            session['redirect_uri'] = redirect_uri
+
         return oauth.auth0.authorize_redirect(
             redirect_uri=url_for('autenticacion_callback', _external=True)
         )
@@ -50,7 +55,13 @@ class Callback(Resource):
             db.session.add(new_user)
             db.session.commit()
 
-        return redirect(url_for('autenticacion_info', _external=True))
+        if session['redirect_uri']:
+            redirect_uri = session['redirect_uri']
+            session.pop('redirect_uri')
+        else:
+            redirect_uri = url_for('autenticacion_info', _external=True)
+
+        return redirect(redirect_uri)
 
 
 @api.route('/logout')
@@ -60,13 +71,18 @@ class Logout(Resource):
     @login_required
     def get(self):
         """Cierra la sesión del usuario"""
+        data = request.args
+        redirect_uri = data.get('redirect_uri')
+        if not redirect_uri:
+            redirect_uri = url_for('autenticacion_info', _external=True)
         session.clear()
+
         return redirect(
             'https://' + os.getenv('AUTH0_DOMAIN')
             + '/v2/logout?'
             + urlencode(
                 {
-                    'returnTo': url_for('autenticacion_info', _external=True),
+                    'returnTo': redirect_uri,
                     'client_id': os.getenv('AUTH0_CLIENT_ID'),
                 },
                 quote_via=quote_plus,
@@ -83,6 +99,17 @@ class Info(Resource):
         # return make_response(jsonify({'user': session.get('user')}))
         data = session['user']
         if data:
-            return make_response(jsonify(data), 200)
+            response = make_response(jsonify(data), 200)
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            response.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'
+            return response
         else:
             return make_response(jsonify({'error': 'No ha iniciado sesión'}), 401)
+
+    def options(self):
+        return 'preflight ok', 200, {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': 'http://localhost:5173',
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Headers': 'content-type'
+        }
