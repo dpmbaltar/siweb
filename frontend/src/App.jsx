@@ -26,12 +26,12 @@ export default function App() {
   return (
     <>
       <Navbar navArrayLinks={navArrayLinks} />
-      <Container>
+      <Container maxWidth='sm'>
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/publicaciones' element={<Posts />} />
-          <Route path='/perfil' element={<UserProfile />} />
+          <Route path='/perfil/:id' element={<UserProfile />} />
         </Routes>
       </Container>
     </>
