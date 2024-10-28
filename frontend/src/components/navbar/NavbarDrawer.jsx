@@ -37,7 +37,7 @@ export default function NavbarDrawer({ navArrayLinks, NavLink, setOpen }) {
           <ListItem disablePadding>
             <ListItemButton
               component={NavLink}
-              to='/perfil'
+              to='/perfil/:id'
               onClick={() => setOpen(false)}
             >
               <ListItemIcon>
