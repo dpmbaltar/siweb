@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
 import DetailsPost from './pages/DetailsPost';
 
+import Callback from './components/login/Callback';
 import Navbar from './components/navbar/Navbar';
 
 const navArrayLinks = [
@@ -21,6 +22,11 @@ const navArrayLinks = [
     path: '/publicaciones',
     icon: faPaw,
   },
+  {
+    title: 'Perfil',
+    path: '/perfil',
+    icon: faPaw,
+  },
 ];
 
 export default function App() {
@@ -31,7 +37,9 @@ export default function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/callback' element={<Callback />} />
           <Route path='/publicaciones' element={<Posts />} />
+          <Route path='/perfil' element={<UserProfile />} />
           <Route path='/perfil/:id' element={<UserProfile />} />
           <Route path='/publicacion/:id' element={<DetailsPost />} />
         </Routes>

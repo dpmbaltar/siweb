@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 import NavbarDrawer from './NavbarDrawer';
+import AuthButton from '../login/AuthButton';
 
 export default function Navbar({ navArrayLinks }) {
   const [open, setOpen] = useState(false);
@@ -52,20 +53,7 @@ export default function Navbar({ navArrayLinks }) {
             ))}
           </Box>
 
-          <Button
-            variant='outlined'
-            color='inherit'
-            component={NavLink}
-            to='/login'
-            startIcon={<FontAwesomeIcon icon={faCircleUser} />}
-            sx={{
-              borderRadius: 10,
-              textTransform: 'capitalize',
-              fontFamily: 'open sans',
-            }}
-          >
-            Acceder
-          </Button>
+          <AuthButton />
         </Toolbar>
       </AppBar>
 
