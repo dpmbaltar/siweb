@@ -24,15 +24,14 @@ export default function Navbar({ navArrayLinks }) {
           <IconButton
             onClick={() => setOpen(true)}
             color='inherit'
-            size='large'
+            size='medium'
             sx={{ display: { xs: 'flex', sm: 'none' } }}
           >
             <FontAwesomeIcon icon={faBars} />
           </IconButton>
           <Typography
             variant='h6'
-            className='open-sans-title'
-            sx={{ flexGrow: 1 }}
+            sx={{ flexGrow: 1, fontFamily: 'open sans' }}
           >
             RescatAr
           </Typography>
@@ -44,6 +43,9 @@ export default function Navbar({ navArrayLinks }) {
                 key={item.title}
                 component={NavLink}
                 to={item.path}
+                style={({ isActive }) =>
+                  isActive ? { color: 'black' } : { color: 'white' }
+                }
               >
                 {item.title}
               </Button>
@@ -59,6 +61,7 @@ export default function Navbar({ navArrayLinks }) {
             sx={{
               borderRadius: 10,
               textTransform: 'capitalize',
+              fontFamily: 'open sans',
             }}
           >
             Acceder

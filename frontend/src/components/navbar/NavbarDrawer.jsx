@@ -21,9 +21,12 @@ export default function NavbarDrawer({ navArrayLinks, NavLink, setOpen }) {
                 component={NavLink}
                 to={item.path}
                 onClick={() => setOpen(false)}
+                style={({ isActive }) =>
+                  isActive ? { color: '#387478' } : { color: 'black' }
+                }
               >
                 <ListItemIcon>
-                  <FontAwesomeIcon icon={item.icon} />
+                  <FontAwesomeIcon icon={item.icon} color='#387478' />
                 </ListItemIcon>
                 <ListItemText>{item.title}</ListItemText>
               </ListItemButton>
@@ -39,9 +42,12 @@ export default function NavbarDrawer({ navArrayLinks, NavLink, setOpen }) {
               component={NavLink}
               to='/perfil/:id'
               onClick={() => setOpen(false)}
+              style={({ isActive }) =>
+                isActive ? { color: '#387478' } : { color: 'black' }
+              }
             >
               <ListItemIcon>
-                <FontAwesomeIcon icon={faCircleUser} />
+                <FontAwesomeIcon icon={faCircleUser} color='#387478' />
               </ListItemIcon>
               <ListItemText>Tú</ListItemText>
             </ListItemButton>

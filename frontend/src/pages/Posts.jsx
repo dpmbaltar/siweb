@@ -18,15 +18,9 @@ export default function Posts() {
 
   return (
     <div className='open-sans-text'>
-      <h1 className='open-sans-title'>Posts</h1>
+      <h2 className='open-sans-title'>Posts</h2>
       {posts.map((item) => (
-        <PostCard
-          key={item.id}
-          usuario={item.usuario}
-          fechaCreado={item.fecha_creado}
-          titulo={item.titulo}
-          descripcion={item.contenido}
-        />
+        <PostCard key={item.id} datosPublicacion={item} />
       ))}
     </div>
   );

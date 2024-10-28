@@ -1,7 +1,7 @@
 export default function UserProfile() {
   return (
     <>
-      <h1 className='open-sans-title'>Perfil del usuario</h1>
+      <h2 className='open-sans-title'>Perfil del usuario</h2>
     </>
   );
 }

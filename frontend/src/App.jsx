@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
+import DetailsPost from './pages/DetailsPost';
 
 import Navbar from './components/navbar/Navbar';
 
@@ -32,6 +33,7 @@ export default function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/publicaciones' element={<Posts />} />
           <Route path='/perfil/:id' element={<UserProfile />} />
+          <Route path='/publicacion/:id' element={<DetailsPost />} />
         </Routes>
       </Container>
     </>
