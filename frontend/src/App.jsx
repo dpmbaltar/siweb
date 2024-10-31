@@ -35,7 +35,7 @@ export default function App() {
       <Navbar navArrayLinks={navArrayLinks} />
       <Container maxWidth='sm'>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Posts />} />
           <Route path='/login' element={<Login />} />
           <Route path='/callback' element={<Callback />} />
           <Route path='/publicaciones' element={<Posts />} />
