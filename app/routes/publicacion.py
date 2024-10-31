@@ -1,5 +1,5 @@
 from flask_restx import Namespace, Resource, marshal
-from flask import request, jsonify, make_response
+from sqlalchemy import desc
 from datetime import date
 
 from ..models import Post, db
@@ -14,7 +14,7 @@ class Publicaciones(Resource):
     @api.marshal_list_with(modelo_publicacion)
     def get(self):
         """Lista todas las publicaciones"""
-        return Post.query.limit(10).all()
+        return Post.query.order_by(desc(Post.fecha_creado)).limit(10).all()
 
     @api.expect(modelo_input_publicacion)
     # @api.marshal_with(modelo_publicacion)
