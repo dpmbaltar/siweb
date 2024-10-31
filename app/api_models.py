@@ -2,12 +2,21 @@ from flask_restx import fields
 
 from app import api
 
+modelo_mascota = api.model('Mascota', {
+    'id': fields.Integer(readOnly=True, description='ID de la mascota'),
+    'nombre': fields.String(required=True, description='Nombre de la mascota'),
+    'tipo': fields.String(required=True, description='Tipo de mascota'),
+    'fecha_nacimiento': fields.String(required=True, description='Fecha de nacimiento de la mascota'),
+    'fecha_nacimiento_est': fields.Boolean(required=True, description='Nacimiento estimado (si/no)')
+})
+
 modelo_usuario = api.model('Usuario', {
     'id': fields.Integer(readOnly=True, description='ID del usuario'),
     'username': fields.String(required=True, description='Nombre de usuario'),
     'email': fields.String(required=True, description='Correo electrónico'),
     'nombre': fields.String(required=True, description='Nombre(s)'),
-    'apellido': fields.String(required=True, description='Apellido(s)')
+    'apellido': fields.String(required=True, description='Apellido(s)'),
+    'mascotas': fields.Nested(modelo_mascota, description='Mascotas del usuario')
 })
 
 modelo_publicacion = api.model('Publicacion', {
