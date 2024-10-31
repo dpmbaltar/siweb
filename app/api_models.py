@@ -16,7 +16,10 @@ modelo_publicacion = api.model('Publicacion', {
     'contenido': fields.String(required=True, description='Cuerpo de la publicación'),
     'fecha_creado': fields.Date(required=True, description='Fecha de creación de la publicación'),
     'fecha_modificado': fields.Date(required=True, description='Fecha de la última modificación sobre la publicación'),
-    'id_usuario': fields.Integer(readOnly=True, description='ID del usuario de la publicación'),
+    'tel_contacto': fields.String(required=True, description='Tel. de contacto'),
+    'area_lat': fields.Float(required=True, description='Area aproximada (latitud)'),
+    'area_lng': fields.Float(required=True, description='Area aproximada (longitud)'),
+    # 'id_usuario': fields.Integer(readOnly=True, description='ID del usuario de la publicación'),
     'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación')
 })
 
