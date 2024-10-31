@@ -31,6 +31,7 @@ class Mascota(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(80), nullable=False)
+    tipo = db.Column(db.String(20), nullable=False)
     fecha_nacimiento = db.Column(db.Date, nullable=False)
     fecha_nacimiento_est = db.Column(db.Boolean, nullable=False)
 
@@ -50,6 +51,9 @@ class Post(db.Model):
     contenido = db.Column(db.Text, nullable=False)
     fecha_creado = db.Column(db.Date, nullable=False)
     fecha_modificado = db.Column(db.Date, nullable=False)
+    tel_contacto = db.Column(db.String(40), nullable=False)
+    area_lat = db.Column(db.Float, nullable=False)
+    area_lng = db.Column(db.Float, nullable=False)
 
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuarios.id'),
                            unique=False, nullable=False)
