@@ -95,21 +95,11 @@ class Info(Resource):
     @api.response(401, 'Acceso no autorizado')
     @login_required
     def get(self):
-        """Brinda información del usuario que ha iniciado una sesión"""
-        # return make_response(jsonify({'user': session.get('user')}))
-        data = session['user']
-        if data:
-            response = make_response(jsonify(data), 200)
-            response.headers['Access-Control-Allow-Credentials'] = 'true'
-            response.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'
-            return response
+        """
+        Brinda información del usuario que ha iniciado una sesión.
+        """
+        token = session.get('user')
+        if token:
+            return make_response(jsonify(token), 200)
         else:
             return make_response(jsonify({'error': 'No ha iniciado sesión'}), 401)
-
-    def options(self):
-        return 'preflight ok', 200, {
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': 'http://localhost:5173',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers': 'content-type'
-        }
