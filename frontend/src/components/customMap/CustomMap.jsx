@@ -7,10 +7,10 @@ import {
 } from '@vis.gl/react-google-maps';
 import './Styles.css';
 
-export default function CustomMap() {
+export default function CustomMap({ lat, lng }) {
   const [markerLocation, setMarkerLocation] = useState({
-    lat: -38.95161,
-    lng: -68.0591,
+    lat: lat,
+    lng: lng,
   });
   const [open, setOpen] = useState();
 

@@ -11,7 +11,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   color: theme.palette.text.secondary,
-  maxWidth: 400,
+  //maxWidth: 400,
   ...theme.applyStyles('dark', {
     backgroundColor: '#1A2027',
   }),
@@ -46,14 +46,17 @@ export default function DetailsPost() {
         <Typography component='div' variant='body1' textAlign={'left'}>
           <Typography variant='h6'>Datos</Typography>
           <Divider />
-          <p>Nombre: </p>
-          <p>Edad: </p>
-          <p>Descripción: {state.datosPublicacion.contenido}</p>
-          <p>Contacto: </p>
-          <p>Zona: </p>
+          <p><b>Descripción:</b> {state.datosPublicacion.contenido}</p>
+          <p><b>Contacto:</b> {state.datosPublicacion.tel_contacto}</p>
+          <p><b>Nombre:</b> </p>
+          <p><b>Edad:</b> </p>
         </Typography>
         <Divider />
-        <CustomMap />
+
+        <CustomMap
+          lat={state.datosPublicacion.area_lat}
+          lng={state.datosPublicacion.area_lng}
+          />
       </Item>
     </>
   );
