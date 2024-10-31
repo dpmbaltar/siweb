@@ -2,7 +2,7 @@ from flask_restx import Namespace, Resource, marshal
 from sqlalchemy import desc
 from datetime import date
 
-from ..models import Post, db
+from ..models import Post, Usuario, db
 from ..api_models import modelo_publicacion, modelo_input_publicacion
 from ..utils import login_required
 
@@ -65,3 +65,15 @@ class Publicacion(Resource):
         db.session.commit()
 
         return {'mensaje': 'Publicación eliminada exitosamente'}, 200
+
+
+@api.route('/usuario/<int:id_usuario>')
+class PublicacionesUsuario(Resource):
+    @api.marshal_list_with(modelo_publicacion)
+    def get(self, id_usuario):
+        """
+        Lista todas las publicaciones de un usuario.
+        """
+        return Post.query.filter(
+            Usuario.id == id_usuario
+        ).order_by(desc(Post.fecha_creado)).all()
