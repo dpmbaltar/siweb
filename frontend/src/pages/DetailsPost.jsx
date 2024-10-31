@@ -1,4 +1,4 @@
-import { Divider, Paper, Stack, Typography } from '@mui/material';
+import { Chip, Divider, Paper, Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
@@ -47,9 +47,19 @@ export default function DetailsPost() {
           <Typography variant='h6'>Datos</Typography>
           <Divider />
           <p><b>Descripción:</b> {state.datosPublicacion.contenido}</p>
-          <p><b>Contacto:</b> {state.datosPublicacion.tel_contacto}</p>
+          <p>
+            <b>Contacto: </b>
+            <Chip
+              label={state.datosPublicacion.tel_contacto}
+              variant="outlined"
+              component="a"
+              href={`tel:${state.datosPublicacion.tel_contacto}`}
+              clickable
+              />
+          </p>
           <p><b>Nombre:</b> </p>
           <p><b>Edad:</b> </p>
+          <p><b>Área:</b> </p>
         </Typography>
         <Divider />
 
