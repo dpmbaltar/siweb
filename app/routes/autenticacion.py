@@ -45,16 +45,19 @@ class Callback(Resource):
         token = oauth.auth0.authorize_access_token()
         session['user'] = token
         data = session['user']['userinfo']
-        user = Usuario.query.filter_by(email=data['email']).first()
+        usuario = Usuario.query.filter_by(email=data['email']).first()
 
-        if not user:
-            new_user = Usuario(username=data['nickname'],
-                               email=data['email'],
-                               nombre=data['given_name'],
-                               apellido=data['family_name'])
-            db.session.add(new_user)
+        if not usuario:
+            usuario = Usuario(
+                username=data['nickname'],
+                email=data['email'],
+                nombre=data['given_name'],
+                apellido=data['family_name']
+            )
+            db.session.add(usuario)
             db.session.commit()
 
+        session['user']['id'] = usuario.id
         if session['redirect_uri']:
             redirect_uri = session['redirect_uri']
             session.pop('redirect_uri')
