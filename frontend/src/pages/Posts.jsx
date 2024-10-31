@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { getPublicaciones } from '../services/servicioPublicaciones';
 import PostCard from '../components/postCard/PostCard';
 
 export default function Posts() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-    axios
-      .get('http://127.0.0.1:5000/publicaciones/')
-      .then((response) => {
-        setPosts(response.data);
+    getPublicaciones()
+      .then((posts) => {
+        setPosts(posts);
       })
       .catch((error) => {
         console.log(error);
