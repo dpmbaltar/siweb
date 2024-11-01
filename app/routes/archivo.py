@@ -4,6 +4,7 @@ from flask_restx import Namespace, Resource
 from flask import request, jsonify, make_response, send_from_directory, current_app
 from werkzeug.utils import secure_filename
 
+import hashlib
 from ..models import File, db
 from ..utils import allowed_file
 from ..api_models import modelo_archivo, modelo_archivo_subido
@@ -27,7 +28,10 @@ class Archivos(Resource):
             return make_response(jsonify({'error': 'No se ha seleccionado un archivo'}), 400)
 
         if file and allowed_file(file.filename, current_app.config['ALLOWED_EXTENSIONS']):
-            nombre_archivo = secure_filename(file.filename)
+            file_content = file.read()
+            file_hash = hashlib.sha256(file_content).hexdigest()
+            file.seek(0)
+            nombre_archivo = secure_filename(f'{file_hash}_{file.filename}')
             path_archivo = os.path.join(current_app.config['UPLOAD_FOLDER'], nombre_archivo)
             file.save(path_archivo)
 
