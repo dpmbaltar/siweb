@@ -14,7 +14,11 @@ class Publicaciones(Resource):
     @api.marshal_list_with(modelo_publicacion)
     def get(self):
         """Lista todas las publicaciones"""
-        return Post.query.order_by(desc(Post.fecha_creado)).limit(10).all()
+        return Post.query.join(
+            Usuario, Usuario.id == Post.id_usuario
+        ).order_by(
+            desc(Post.fecha_creado)
+        ).limit(10).all()
 
     @api.expect(modelo_input_publicacion)
     # @api.marshal_with(modelo_publicacion)
@@ -74,6 +78,8 @@ class PublicacionesUsuario(Resource):
         """
         Lista todas las publicaciones de un usuario.
         """
-        return Post.query.filter(
+        return Post.query.join(
+            Usuario, Usuario.id == Post.id_usuario
+        ).filter(
             Usuario.id == id_usuario
         ).order_by(desc(Post.fecha_creado)).all()
