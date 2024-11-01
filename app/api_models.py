@@ -2,6 +2,11 @@ from flask_restx import fields
 
 from app import api
 
+modelo_archivo = api.model('Archivo', {
+    'id': fields.Integer(description='ID del archivo', required=True),
+    'nombre': fields.String(description='Nombre del archivo')
+})
+
 modelo_mascota = api.model('Mascota', {
     'id': fields.Integer(readOnly=True, description='ID de la mascota'),
     'nombre': fields.String(required=True, description='Nombre de la mascota'),
@@ -28,19 +33,15 @@ modelo_publicacion = api.model('Publicacion', {
     'tel_contacto': fields.String(required=True, description='Tel. de contacto'),
     'area_lat': fields.Float(required=True, description='Area aproximada (latitud)'),
     'area_lng': fields.Float(required=True, description='Area aproximada (longitud)'),
-    # 'id_usuario': fields.Integer(readOnly=True, description='ID del usuario de la publicación'),
-    'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación')
+    'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación'),
+    'mascotas': fields.Nested(modelo_mascota, description='Mascotas de la publicación'),
+    'archivos': fields.Nested(modelo_archivo, description='Archivos de la publicación'),
 })
 
 modelo_input_publicacion = api.model('PublicacionInput', {
     'titulo': fields.String(required=True, description='Titulo de la publicación'),
     'contenido': fields.String(required=True, description='Cuerpo de la publicación'),
     'usuario': fields.Integer(min=1)
-})
-
-modelo_archivo = api.model('Archivo', {
-    'id': fields.Integer(description='ID del archivo', required=True),
-    'nombre': fields.String(description='Nombre del archivo')
 })
 
 modelo_archivo_subido = api.model('ArchivoSubido', {

@@ -7,6 +7,20 @@ mascotas_usuario = db.Table(
     db.Column('id_mascota', db.ForeignKey('mascotas.id'), primary_key=True),
 )
 
+# Tabla JOIN de mascotas-posts
+mascotas_post = db.Table(
+    'mascotas_post',
+    db.Column('id_post', db.ForeignKey('posts.id'), primary_key=True),
+    db.Column('id_mascota', db.ForeignKey('mascotas.id'), primary_key=True),
+)
+
+# Tabla JOIN de archivos-posts
+archivos_post = db.Table(
+    'archivos_post',
+    db.Column('id_post', db.ForeignKey('posts.id'), primary_key=True),
+    db.Column('id_archivo', db.ForeignKey('archivos.id'), primary_key=True),
+)
+
 
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
@@ -38,6 +52,9 @@ class Mascota(db.Model):
     usuarios = db.relationship('Usuario',
                                secondary='mascotas_usuario',
                                back_populates='mascotas')
+    posts = db.relationship('Post',
+                            secondary='mascotas_post',
+                            back_populates='mascotas')
 
     def __repr__(self):
         return f'<Mascota {self.nombre}>'
@@ -58,6 +75,12 @@ class Post(db.Model):
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuarios.id'),
                            unique=False, nullable=False)
     usuario = db.relationship('Usuario', back_populates='posts')
+    mascotas = db.relationship('Mascota',
+                               secondary='mascotas_post',
+                               back_populates='posts')
+    archivos = db.relationship('File',
+                               secondary='archivos_post',
+                               back_populates='posts')
 
     def __repr__(self):
         return f'<Post {self.titulo}>'
@@ -68,6 +91,10 @@ class File(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(120), nullable=False)
+
+    posts = db.relationship('Post',
+                            secondary='archivos_post',
+                            back_populates='archivos')
 
     def __repr__(self):
         return f'<File {self.nombre}>'
