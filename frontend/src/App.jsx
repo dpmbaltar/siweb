@@ -7,6 +7,7 @@ import Posts from './pages/Posts';
 import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
 import DetailsPost from './pages/DetailsPost';
+import NewPost from './pages/NewPost';
 
 import Callback from './components/login/Callback';
 import Navbar from './components/navbar/Navbar';
@@ -42,6 +43,7 @@ export default function App() {
           <Route path='/perfil' element={<UserProfile />} />
           <Route path='/perfil/:id' element={<UserProfile />} />
           <Route path='/publicacion/:id' element={<DetailsPost />} />
+          <Route path='/publicacion/nueva' element={<NewPost />} />
         </Routes>
       </Container>
     </>

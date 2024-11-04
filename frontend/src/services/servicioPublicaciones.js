@@ -10,8 +10,11 @@ export const getPublicacionesUsuario = async (idUsuario) => {
   return response.data;
 };
 
-export const postPublicaciones = async () => {
-  return {};
+export const postPublicaciones = async (nuevaPublicacion) => {
+  const response = await api.post('/publicaciones/', nuevaPublicacion, {
+    withCredentials: true,
+  });
+  return response.data;
 };
 
 export const putPublicacion = async (idPublicacion) => {
