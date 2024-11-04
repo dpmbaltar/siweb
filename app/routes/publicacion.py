@@ -17,7 +17,7 @@ class Publicaciones(Resource):
         return Post.query.join(
             Usuario, Usuario.id == Post.id_usuario
         ).order_by(
-            desc(Post.fecha_creado)
+            desc(Post.id)
         ).limit(10).all()
 
     @api.expect(modelo_post_publicacion)
