@@ -2,6 +2,9 @@ import { Chip, Divider, Paper, Stack, Typography } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaw, faPhone } from '@fortawesome/free-solid-svg-icons';
+
 import UserAvatar from '../components/userAvatar/UserAvatar';
 import CustomMap from '../components/customMap/CustomMap';
 
@@ -56,11 +59,12 @@ export default function DetailsPost() {
               variant="outlined"
               component="a"
               href={`tel:${post.tel_contacto}`}
+              icon={<FontAwesomeIcon icon={faPhone} />}
               clickable
               />
-            <h4>Mascotas</h4>
+            <h4>Mascota</h4>
             {mascotas.map((mascota) => (
-              <Chip key={mascota.id} label={mascota.nombre} />
+              <Chip key={mascota.id} label={mascota.nombre} icon={<FontAwesomeIcon icon={faPaw} />} />
             ))}
             <h4>Lugar aproximado</h4>
           </div>
