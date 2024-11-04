@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
 import UserAvatar from '../userAvatar/UserAvatar';
+import { linkArchivo } from '../../services/servicioArchivos';
 
 export default function PostCard({ datosPublicacion }) {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ export default function PostCard({ datosPublicacion }) {
       state: { datosPublicacion },
     });
   };
+
+  console.log(datosPublicacion);
 
   return (
     <Card
@@ -47,9 +50,9 @@ export default function PostCard({ datosPublicacion }) {
 
         <CardMedia
           component='img'
-          image='https://via.placeholder.com/1000x200'
-          height='200'
-          alt='Card Image'
+          image={linkArchivo(datosPublicacion.archivos.length > 0 ? datosPublicacion.archivos[0].id : '')}
+          height="100%"
+          alt={datosPublicacion.titulo}
         />
 
         <CardContent>
