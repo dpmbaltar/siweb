@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -17,7 +17,7 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function InputFileUpload({ onFileSelect }) {
+export default function InputFileUpload({ onFileSelect, label, icon }) {
 
   const handleChange = (event) => {
     const file = event.target.files[0];
@@ -30,9 +30,9 @@ export default function InputFileUpload({ onFileSelect }) {
       role={undefined}
       variant="contained"
       tabIndex={-1}
-      startIcon={<FontAwesomeIcon icon={faUpload} />}
+      startIcon={icon ? icon : <FontAwesomeIcon icon={faCloudArrowUp} />}
     >
-      Subir archivos
+      {label ? label : "Subir archivos"}
       <VisuallyHiddenInput
         type="file"
         onChange={handleChange}
