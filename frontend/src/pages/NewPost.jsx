@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Button, Card, CardContent, Divider, FormHelperText, Paper, TextField } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { styled } from '@mui/material/styles';
@@ -22,6 +23,8 @@ const Img = styled('img')({
 });
 
 export default function NewPost() {
+  const navigate = useNavigate();
+
   const [errorTitulo, setErrorTitulo] = useState({});
   const [errorContenido, setErrorContenido] = useState({});
   const [errorTelContacto, setErrorTelContacto] = useState({});
@@ -132,7 +135,12 @@ export default function NewPost() {
       return;
 
     postPublicaciones(formData)
-      .then((resultado) => console.log(resultado))
+      .then((nuevaPublicacion) => {
+        console.log(nuevaPublicacion);
+        navigate(`/publicacion/${nuevaPublicacion.id}`, {
+          state: { datosPublicacion: nuevaPublicacion },
+        });
+      })
       .catch((error) => console.log(error));
   };
 
