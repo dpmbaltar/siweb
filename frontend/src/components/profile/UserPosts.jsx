@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPublicacionesUsuario } from '../../services/servicioPublicaciones';
 import PostCard from '../postCard/PostCard';
+import { Skeleton } from '@mui/material';
 
 export default function UserPosts({ idUsuario, nombreUsuario }) {
   const autor = nombreUsuario.split(' ')[0]
@@ -16,12 +17,21 @@ export default function UserPosts({ idUsuario, nombreUsuario }) {
     });
   }, []);
 
+  if (posts.length == 0) {
+    return (
+      <>
+        <h2 className='open-sans-title'>Publicaciones de {autor}</h2>
+        <Skeleton variant="rounded" width={"100%"} height={300} />
+      </>
+    );
+  }
+
   return (
-    <div className='open-sans-text'>
+    <>
       <h2 className='open-sans-title'>Publicaciones de {autor}</h2>
       {posts.map((item) => (
         <PostCard key={item.id} datosPublicacion={item} />
       ))}
-    </div>
+    </>
   );
 }
