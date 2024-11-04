@@ -38,6 +38,19 @@ modelo_publicacion = api.model('Publicacion', {
     'archivos': fields.Nested(modelo_archivo, description='Archivos de la publicación'),
 })
 
+modelo_post_publicacion = api.model('PostPublicacion', {
+    'titulo': fields.String(required=True, description='Titulo de la publicación'),
+    'contenido': fields.String(required=True, description='Cuerpo de la publicación'),
+    'tel_contacto': fields.String(required=True, description='Tel. de contacto'),
+    'area_lat': fields.Float(required=True, description='Area aproximada (latitud)'),
+    'area_lng': fields.Float(required=True, description='Area aproximada (longitud)'),
+    'id_usuario': fields.Integer(min=0),
+    'id_archivo': fields.Integer(min=0),
+    'id_mascota': fields.Integer(min=0),
+    'mascota_nombre': fields.String(required=True, description='Nombre de la mascota'),
+    'mascota_fecha_nacimiento': fields.Date(required=True, description='Fecha de nacimiento de la mascota'),
+})
+
 modelo_input_publicacion = api.model('PublicacionInput', {
     'titulo': fields.String(required=True, description='Titulo de la publicación'),
     'contenido': fields.String(required=True, description='Cuerpo de la publicación'),

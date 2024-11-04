@@ -2,8 +2,8 @@ from flask_restx import Namespace, Resource, marshal
 from sqlalchemy import desc
 from datetime import date
 
-from ..models import Post, Usuario, db
-from ..api_models import modelo_publicacion, modelo_input_publicacion
+from ..models import Post, Usuario, Mascota, File, db
+from ..api_models import modelo_publicacion, modelo_input_publicacion, modelo_post_publicacion
 from ..utils import login_required
 
 api = Namespace('publicaciones', description='Operaciones con publicaciones')
@@ -20,23 +20,47 @@ class Publicaciones(Resource):
             desc(Post.fecha_creado)
         ).limit(10).all()
 
-    @api.expect(modelo_input_publicacion)
-    # @api.marshal_with(modelo_publicacion)
+    @api.expect(modelo_post_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
     @api.response(401, 'Acceso no autorizado')
     @login_required
     def post(self):
         """Crea un nuevo post asociado a un usuario"""
-        new_post = Post(titulo=api.payload['titulo'],
-                        contenido=api.payload['contenido'],
-                        fecha_creado=date.today(),
-                        fecha_modificado=date.today(),
-                        id_usuario=api.payload['usuario']
-                        )
-        db.session.add(new_post)
+        nueva_publicacion = Post(titulo=api.payload['titulo'],
+                                 contenido=api.payload['contenido'],
+                                 tel_contacto=api.payload['tel_contacto'],
+                                 area_lat=api.payload['area_lat'],
+                                 area_lng=api.payload['area_lng'],
+                                 fecha_creado=date.today(),
+                                 fecha_modificado=date.today(),
+                                 id_usuario=api.payload['id_usuario']
+                                 )
+        nueva_mascota = Mascota(nombre=api.payload['mascota_nombre'],
+                                fecha_nacimiento=api.payload['mascota_fecha_nacimiento'],
+                                fecha_nacimiento_est=True,
+                                tipo='indefinido'
+                                )
+        archivo = File.query.get(api.payload['id_archivo'])
+
+        nueva_publicacion.mascotas.append(nueva_mascota)
+        nueva_publicacion.archivos.append(archivo)
+
+        db.session.add(nueva_publicacion)
+        db.session.add(nueva_mascota)
         db.session.commit()
-        # return new_post
-        return marshal(new_post, modelo_publicacion), 201
+
+        return marshal(nueva_publicacion, modelo_publicacion), 201, {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': 'http://localhost:5173'
+        }
+
+    def options(self):
+        return 'preflight ok', 200, {
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Allow-Origin': 'http://localhost:5173',
+            'Access-Control-Allow-Methods': 'GET,POST',
+            'Access-Control-Allow-Headers': 'content-type'
+        }
 
 
 @api.route('/<int:publicacionId>')
