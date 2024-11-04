@@ -17,3 +17,7 @@ export const getArchivo = async (idArchivo) => {
   const response = await api.get(`/archivos/${idArchivo}`);
   return response.data;
 };
+
+export const linkArchivo = (idArchivo) => {
+  return `http://localhost:5000/archivos/${idArchivo}`;
+};
