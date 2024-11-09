@@ -45,6 +45,7 @@ def create_app():
     # Inicializar CORS
     CORS(
         app,
+        always_send=True,
         supports_credentials=True,
         origins=['http://localhost:5173']
     )
