@@ -34,26 +34,6 @@ export default function NavbarDrawer({ navArrayLinks, NavLink, setOpen }) {
           ))}
         </List>
       </nav>
-      <Divider />
-      <nav>
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={NavLink}
-              to='/perfil/:id'
-              onClick={() => setOpen(false)}
-              style={({ isActive }) =>
-                isActive ? { color: '#387478' } : { color: 'black' }
-              }
-            >
-              <ListItemIcon>
-                <FontAwesomeIcon icon={faCircleUser} color='#387478' />
-              </ListItemIcon>
-              <ListItemText>Tú</ListItemText>
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </nav>
     </Box>
   );
 }

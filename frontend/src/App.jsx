@@ -1,8 +1,7 @@
 import { Container } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
-import { faHouse, faPaw } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
-import Home from './pages/Home';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
 import UserProfile from './pages/UserProfile';
@@ -19,14 +18,9 @@ const navArrayLinks = [
     icon: faHouse,
   },
   {
-    title: 'Publicaciones',
-    path: '/publicaciones',
-    icon: faPaw,
-  },
-  {
     title: 'Perfil',
     path: '/perfil',
-    icon: faPaw,
+    icon: faCircleUser,
   },
 ];
 
