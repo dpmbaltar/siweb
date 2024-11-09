@@ -92,7 +92,12 @@ export default function NewPost() {
 
   // Establece las coordenadas de ubicación marcada en el mapa
   const handleLocationSelect = (coords) => {
-    setLocation(coords);
+    //setLocation(coords);
+    setFormData((prev) => ({
+      ...prev,
+      area_lat: coords.lat,
+      area_lng: coords.lng,
+    }));
   };
 
   // Establece los archivos de imagen a subir
@@ -108,6 +113,10 @@ export default function NewPost() {
     postArchivo(file)
       .then((archivo) => {
         setFileUpload(archivo);
+        setFormData((prev) => ({
+          ...prev,
+          id_archivo: archivo.id,
+        }));
       })
       .catch((error) => {
         console.log(error);
@@ -123,12 +132,12 @@ export default function NewPost() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setFormData((prev) => ({
+    /*setFormData((prev) => ({
       ...prev,
       area_lat: location.lat,
       area_lng: location.lng,
       id_archivo: fileUpload ? fileUpload.id : 0,
-    }));
+    }));*/
     console.log('Form data:', formData);
 
     if (!validateFormData(formData))
@@ -226,14 +235,14 @@ export default function NewPost() {
             </Grid>
 
             <h4 className='open-sans-title'>Zona aproximada</h4>
-            <LocationSelectMap onLocationSelect={handleLocationSelect} />
+            <LocationSelectMap onLocationSelect={(coords) => handleLocationSelect(coords)} />
             {errorArea ? <FormHelperText error>{errorArea.helperText}</FormHelperText> : ''}
 
             <h4 className='open-sans-title'>Foto de la publicación</h4>
             <Grid container spacing={2} style={{ marginTop: 16 }}>
               <Grid size={12}>
                 <InputFileUpload
-                  onFileSelect={handleFileSelect}
+                  onFileSelect={(file) => handleFileSelect(file)}
                   label="Seleccionar foto"
                   icon={<FontAwesomeIcon icon={faImage} />}
                 />
