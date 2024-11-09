@@ -4,7 +4,7 @@ export const postArchivo = async (archivo) => {
   const formData = new FormData();
   formData.append('file', archivo);
 
-  const response = await api.post('/archivos', formData, {
+  const response = await api.post('/archivos/', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
