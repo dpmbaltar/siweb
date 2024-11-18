@@ -1,4 +1,5 @@
 import api from './api';
+import { getInfo } from './servicioAutenticacion';
 
 export const getPublicaciones = async () => {
   const response = await api.get('/publicaciones');
@@ -11,8 +12,12 @@ export const getPublicacionesUsuario = async (idUsuario) => {
 };
 
 export const postPublicaciones = async (nuevaPublicacion) => {
+  const token = getInfo()?.id_token;
   const response = await api.post('/publicaciones/', nuevaPublicacion, {
     withCredentials: true,
+    headers: {
+      "Authorization": `Bearer ${token}`,
+    }
   });
   return response.data;
 };
