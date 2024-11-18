@@ -1,10 +1,11 @@
+from flask_cors import cross_origin
 from flask_restx import Namespace, Resource, marshal
 from sqlalchemy import desc
 from datetime import date
 
 from ..models import Post, Usuario, Mascota, File, db
 from ..api_models import modelo_publicacion, modelo_input_publicacion, modelo_post_publicacion
-from ..utils import login_required
+from ..utils import login_required, requires_auth
 
 api = Namespace('publicaciones', description='Operaciones con publicaciones')
 
@@ -23,7 +24,9 @@ class Publicaciones(Resource):
     @api.expect(modelo_post_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
     @api.response(401, 'Acceso no autorizado')
-    @login_required
+    # @login_required
+    @cross_origin(headers=["Content-Type", "Authorization"], supports_credentials=True)
+    @requires_auth
     def post(self):
         """Crea un nuevo post asociado a un usuario"""
         nueva_publicacion = Post(titulo=api.payload['titulo'],
@@ -49,17 +52,18 @@ class Publicaciones(Resource):
         db.session.add(nueva_mascota)
         db.session.commit()
 
-        return marshal(nueva_publicacion, modelo_publicacion), 201, {
+        return marshal(nueva_publicacion, modelo_publicacion), 201
+        """, {
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Origin': 'http://localhost:5173'
-        }
+        }"""
 
     def options(self):
         return 'preflight ok', 200, {
             'Access-Control-Allow-Credentials': 'true',
             'Access-Control-Allow-Origin': 'http://localhost:5173',
             'Access-Control-Allow-Methods': 'GET,POST',
-            'Access-Control-Allow-Headers': 'content-type'
+            'Access-Control-Allow-Headers': 'authorization, content-type'
         }
 
 

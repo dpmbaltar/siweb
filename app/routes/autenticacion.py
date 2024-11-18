@@ -6,7 +6,7 @@ from flask_restx import Namespace, Resource
 from flask import redirect, request, session, url_for, make_response, jsonify, current_app as app
 
 from ..models import Usuario, db
-from ..utils import login_required
+from ..utils import login_required, validate_token
 
 oauth = OAuth(app)
 oauth.register(
@@ -41,8 +41,11 @@ class Login(Resource):
 @api.route("/callback")
 class Callback(Resource):
     def get(self):
-        """Redirecciona al usuario cuando inicia sesión (lo registra si es la primera vez)"""
+        """Redirecciona al usuario cuando inicia sesión.
+        """
         token = oauth.auth0.authorize_access_token()
+        validate_token(token['id_token'])
+
         session['user'] = token
         data = session['user']['userinfo']
         usuario = Usuario.query.filter_by(email=data['email']).first()
