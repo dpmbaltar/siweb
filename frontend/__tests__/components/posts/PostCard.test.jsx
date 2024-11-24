@@ -40,4 +40,7 @@ test('renderiza el botón para ver más acerca de una publicación en un PostCar
 
   expect(botonVerMas).toBeInTheDocument();
   expect(botonVerMas).toHaveTextContent('Ver más');
+
+  fireEvent.click(botonVerMas);
+  expect(mockUseNavigate).toHaveBeenCalledTimes(1);
 });
