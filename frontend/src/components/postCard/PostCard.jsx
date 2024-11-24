@@ -24,8 +24,6 @@ export default function PostCard({ datosPublicacion }) {
     });
   };
 
-  console.log(datosPublicacion);
-
   return (
     <Card
       raised
