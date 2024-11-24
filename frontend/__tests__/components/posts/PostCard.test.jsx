@@ -32,6 +32,18 @@ test('renderiza imagen de una publicación en un PostCard', () => {
   expect(imagen).toBeInTheDocument();
 });
 
+test('renderiza el título y contenido correctamente en el PostCard', () => {
+  render(<PostCard datosPublicacion={mockPost} />);
+
+  const titulo = screen.getByRole('heading');
+  const contenido = screen.getByRole('paragraph');
+
+  expect(titulo).toBeInTheDocument();
+  expect(contenido).toBeInTheDocument();
+  expect(titulo).toHaveTextContent(mockPost.titulo);
+  expect(contenido).toHaveTextContent(mockPost.contenido);
+});
+
 test('renderiza el botón para ver más acerca de una publicación en un PostCard', () => {
   render(<PostCard datosPublicacion={mockPost} />);
 
