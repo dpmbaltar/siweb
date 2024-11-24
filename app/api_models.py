@@ -24,6 +24,12 @@ modelo_usuario = api.model('Usuario', {
     'mascotas': fields.Nested(modelo_mascota, description='Mascotas del usuario')
 })
 
+modelo_usuario_publicacion = api.model('Usuario', {
+    'id': fields.Integer(readOnly=True, description='ID del usuario'),
+    'nombre': fields.String(required=True, description='Nombre(s)'),
+    'apellido': fields.String(required=True, description='Apellido(s)')
+})
+
 modelo_publicacion = api.model('Publicacion', {
     'id': fields.Integer(readOnly=True, description='ID de la publicación'),
     'titulo': fields.String(required=True, description='Titulo de la publicación'),
@@ -33,7 +39,7 @@ modelo_publicacion = api.model('Publicacion', {
     'tel_contacto': fields.String(required=True, description='Tel. de contacto'),
     'area_lat': fields.Float(required=True, description='Area aproximada (latitud)'),
     'area_lng': fields.Float(required=True, description='Area aproximada (longitud)'),
-    'usuario': fields.Nested(modelo_usuario, description='Creador de la publicación'),
+    'usuario': fields.Nested(modelo_usuario_publicacion, description='Creador de la publicación'),
     'mascotas': fields.Nested(modelo_mascota, description='Mascotas de la publicación'),
     'archivos': fields.Nested(modelo_archivo, description='Archivos de la publicación'),
 })
