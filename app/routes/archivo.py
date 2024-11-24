@@ -1,5 +1,6 @@
 import os
 
+from datetime import datetime
 from flask_restx import Namespace, Resource
 from flask import request, jsonify, make_response, send_from_directory, current_app
 from werkzeug.utils import secure_filename
@@ -28,10 +29,17 @@ class Archivos(Resource):
             return make_response(jsonify({'error': 'No se ha seleccionado un archivo'}), 400)
 
         if file and allowed_file(file.filename, current_app.config['ALLOWED_EXTENSIONS']):
+            # Crear nombre para el archivo
+            file_parts = os.path.splitext(file.filename)
+            file_name = file_parts[0]
+            file_ext = file_parts[1]
             file_content = file.read()
             file_hash = hashlib.sha256(file_content).hexdigest()
             file.seek(0)
-            nombre_archivo = secure_filename(f'{file_hash}_{file.filename}')
+            file_timestamp = str(int(datetime.now().timestamp()))
+            nombre_archivo = secure_filename(f'{file_name}_{file_hash}_{file_timestamp}{file_ext}')
+
+            # Guardar archivo
             path_archivo = os.path.join(current_app.config['UPLOAD_FOLDER'], nombre_archivo)
             file.save(path_archivo)
 
