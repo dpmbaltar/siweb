@@ -24,6 +24,10 @@ export default function PostCard({ datosPublicacion }) {
     });
   };
 
+  const usuario = datosPublicacion.usuario;
+  const nombreUsuario = `${usuario.nombre} ${usuario.apellido}`;
+  const idImagen = datosPublicacion.archivos.length > 0 ? datosPublicacion.archivos[0].id : '';
+
   return (
     <Card
       raised
@@ -35,28 +39,22 @@ export default function PostCard({ datosPublicacion }) {
         my: 3,
       }}
     >
-      <CardActionArea>
+      <CardActionArea onClick={handleDetailsPost}>
         <CardHeader
-          avatar={<UserAvatar usuario={datosPublicacion.usuario} />}
-          title={
-            datosPublicacion.usuario.nombre +
-            ' ' +
-            datosPublicacion.usuario.apellido
-          }
+          avatar={<UserAvatar usuario={usuario} />}
+          title={nombreUsuario}
           subheader={datosPublicacion.fecha_creado}
         />
 
         <CardMedia
           component='img'
-          image={linkArchivo(datosPublicacion.archivos.length > 0 ? datosPublicacion.archivos[0].id : '')}
+          image={linkArchivo(idImagen)}
           height="100%"
           alt={datosPublicacion.titulo}
         />
 
         <CardContent>
-          <Typography gutterBottom variant='h5' component='div'>
-            {datosPublicacion.titulo}
-          </Typography>
+          <Typography gutterBottom variant='h5' component='h5'>{datosPublicacion.titulo}</Typography>
           <Typography variant='body2'>{datosPublicacion.contenido}</Typography>
         </CardContent>
       </CardActionArea>
