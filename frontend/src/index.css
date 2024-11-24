@@ -1,3 +1,8 @@
+body {
+  background-color: #E2F1E7;
+  margin: 0;
+}
+
 /* <weight>: Use a value from 300 to 800 */
 .open-sans-text {
   font-family: 'Open Sans', sans-serif;

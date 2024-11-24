@@ -1,10 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './index.css';
-import App from './App.jsx';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { BrowserRouter } from 'react-router-dom';
 import { GlobalStyles } from '@mui/material';
+
+import App from './App.jsx';
+import './index.css';
 
 const theme = createTheme({
   palette: {
@@ -13,9 +14,6 @@ const theme = createTheme({
       main: '#387478',
     },
     secondary: {
-      //main: '#f50057',
-      //main: '#629584',
-      //main: '#243642',
       main: '#387478',
     },
     typography: {
@@ -29,11 +27,7 @@ const theme = createTheme({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <GlobalStyles
-        styles={{
-          body: { backgroundColor: '#E2F1E7' },
-        }}
-      />
+      <GlobalStyles />
       <BrowserRouter>
         <App />
       </BrowserRouter>
