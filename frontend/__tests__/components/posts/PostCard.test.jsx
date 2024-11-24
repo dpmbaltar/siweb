@@ -31,3 +31,13 @@ test('renderiza imagen de una publicación en un PostCard', () => {
   const imagen = screen.getByRole('img', { alt: 'Perra perdida' });
   expect(imagen).toBeInTheDocument();
 });
+
+test('renderiza el botón para ver más acerca de una publicación en un PostCard', () => {
+  render(<PostCard datosPublicacion={mockPost} />);
+
+  const botones = screen.getAllByRole('button');
+  const botonVerMas = botones[botones.length - 1];
+
+  expect(botonVerMas).toBeInTheDocument();
+  expect(botonVerMas).toHaveTextContent('Ver más');
+});
