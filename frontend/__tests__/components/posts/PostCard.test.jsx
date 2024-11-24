@@ -14,10 +14,10 @@ jest.mock('react-router-dom', () => ({
 test('muestra los datos de una publicación en un PostCard', () => {
   render(<PostCard datosPublicacion={mockPost} />);
 
-  const nombreUsuario = screen.getByText(/Perra perdida/i);
-  const fechaPublicacion = screen.getByText(/2024-11-18/i);
-  const textoTitulo = screen.getByText(/Juan Pérez/i);
-  const textoContenido = screen.getByText(/Perdida en zona centro/i);
+  const nombreUsuario = screen.getByText(/Juan Pérez/i);
+  const fechaPublicacion = screen.getByText(/2024-11-22/i);
+  const textoTitulo = screen.getByText(/Perrita perdida llamada India/i);
+  const textoContenido = screen.getByText(/India, nuestra perrita, se ha perdido/i);
 
   expect(nombreUsuario).toBeInTheDocument();
   expect(fechaPublicacion).toBeInTheDocument();
