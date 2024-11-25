@@ -1,12 +1,14 @@
 import api from './api';
+import { getToken } from './servicioAutenticacion';
 
 export const postArchivo = async (archivo) => {
+  const token = getToken();
   const formData = new FormData();
   formData.append('file', archivo);
-
   const response = await api.post('/archivos/', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
+      'Authorization': `Bearer ${token}`,
     },
   });
 

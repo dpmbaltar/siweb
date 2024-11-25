@@ -9,3 +9,7 @@ export const getInfo = () => {
 
   return null;
 };
+
+export const getToken = () => {
+  return getInfo()?.id_token;
+};
