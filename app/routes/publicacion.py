@@ -5,7 +5,7 @@ from datetime import date
 
 from ..models import Post, Usuario, Mascota, File, db
 from ..api_models import modelo_publicacion, modelo_input_publicacion, modelo_post_publicacion
-from ..utils import login_required, requires_auth
+from ..utils import requires_auth
 
 api = Namespace('publicaciones', description='Operaciones con publicaciones')
 
@@ -24,7 +24,6 @@ class Publicaciones(Resource):
     @api.expect(modelo_post_publicacion)
     @api.response(201, 'Publicación creada exitosamente')
     @api.response(401, 'Acceso no autorizado')
-    # @login_required
     @cross_origin(headers=["Content-Type", "Authorization"], supports_credentials=True)
     @requires_auth
     def post(self):
@@ -53,10 +52,6 @@ class Publicaciones(Resource):
         db.session.commit()
 
         return marshal(nueva_publicacion, modelo_publicacion), 201
-        """, {
-            'Access-Control-Allow-Credentials': 'true',
-            'Access-Control-Allow-Origin': 'http://localhost:5173'
-        }"""
 
     def options(self):
         return 'preflight ok', 200, {
@@ -78,7 +73,8 @@ class Publicacion(Resource):
     @api.expect(modelo_input_publicacion)
     @api.marshal_with(modelo_publicacion)
     @api.response(200, 'Publicación actualizada exitosamente')
-    @login_required
+    @cross_origin(headers=["Content-Type", "Authorization"], supports_credentials=True)
+    @requires_auth
     def put(self, publicacionId):
         """Actualiza la información de una publicación por medio de su id"""
         post = Post.query.get(publicacionId)
@@ -89,7 +85,8 @@ class Publicacion(Resource):
         return post
 
     @api.response(200, 'Publicación eliminada exitosamente')
-    @login_required
+    @cross_origin(headers=["Content-Type", "Authorization"], supports_credentials=True)
+    @requires_auth
     def delete(self, publicacionId):
         """Elimina una publicación por medio de su id"""
         post = Post.query.get(publicacionId)

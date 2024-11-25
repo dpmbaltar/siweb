@@ -1,13 +1,14 @@
 import os
 
 from datetime import datetime
+from flask_cors import cross_origin
 from flask_restx import Namespace, Resource
 from flask import request, jsonify, make_response, send_from_directory, current_app
 from werkzeug.utils import secure_filename
 
 import hashlib
 from ..models import File, db
-from ..utils import allowed_file
+from ..utils import allowed_file, requires_auth
 from ..api_models import modelo_archivo, modelo_archivo_subido
 
 api = Namespace('archivos', description='Operaciones con archivos')
@@ -18,6 +19,8 @@ class Archivos(Resource):
     @api.expect(api.parser().add_argument('file', location='files', type='file', required=True))
     @api.response(201, 'Archivo subido exitosamente', model=modelo_archivo_subido)
     @api.response(400, 'Error al subir archivo')
+    @cross_origin(headers=['Content-Type', 'Authorization'], supports_credentials=True)
+    @requires_auth
     def post(self):
         """Sube un archivo de imagen al servidor (png, jpg, jpeg, gif)"""
         if 'file' not in request.files:
