@@ -16,6 +16,19 @@ import UserAvatar from '../userAvatar/UserAvatar';
 import { linkArchivo } from '../../services/servicioArchivos';
 
 export default function PostCard({ datosPublicacion }) {
+  if (Object.keys(datosPublicacion).length === 0) {
+    return (
+      <Card raised sx={{ my: 3 }}>
+        <CardActionArea>
+          <CardContent>
+            <Typography gutterBottom variant='h5' component='h5'>Error</Typography>
+            <Typography variant='body2'>Error al obtener detalles de la publicación.</Typography>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    );
+  }
+
   const navigate = useNavigate();
 
   const handleDetailsPost = () => {

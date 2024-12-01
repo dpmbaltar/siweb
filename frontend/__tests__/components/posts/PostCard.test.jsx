@@ -61,10 +61,7 @@ test('no debería renderizar con datos incompletos', () => {
   render(<PostCard datosPublicacion={{}} />);
 
   const titulo = screen.getByRole('heading');
-  const contenido = screen.getByRole('paragraph');
 
   expect(titulo).toBeInTheDocument();
-  expect(contenido).toBeInTheDocument();
-  expect(titulo).toHaveTextContent('');
-  expect(contenido).toHaveTextContent('');
+  expect(titulo).toHaveTextContent('Error');
 });
