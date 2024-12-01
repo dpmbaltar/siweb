@@ -56,3 +56,15 @@ test('renderiza el botón para ver más acerca de una publicación en un PostCar
   fireEvent.click(botonVerMas);
   expect(mockUseNavigate).toHaveBeenCalledTimes(1);
 });
+
+test('no debería renderizar con datos incompletos', () => {
+  render(<PostCard datosPublicacion={{}} />);
+
+  const titulo = screen.getByRole('heading');
+  const contenido = screen.getByRole('paragraph');
+
+  expect(titulo).toBeInTheDocument();
+  expect(contenido).toBeInTheDocument();
+  expect(titulo).toHaveTextContent('');
+  expect(contenido).toHaveTextContent('');
+});
